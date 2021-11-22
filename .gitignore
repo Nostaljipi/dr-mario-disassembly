@@ -1,0 +1,6 @@
+_docs/
+_original/
+.vscode/
+compile_debug.bat
+*.nes
+*.mlb
