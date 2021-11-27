@@ -1108,7 +1108,8 @@ antiPiracy_checksum:
         cmp #>checksumAddr_end                 
         bne @checksum_loop       
         lda checksum                    ;Once we reach $BDFF, value in checksum (tmp49) has to be $98, otherwise it is pirated      
-        cmp #checksumValue                 
+    @checksum_addr:
+        cmp #checksumValue               
         beq @exit_antiPiracy_checksum
     @isPirated:           
         lda #$FF        
@@ -2199,7 +2200,11 @@ checkPauseReset:
         sta flag_inLevel_NMI     
         jsr visualAudioUpdate_NMI
         lda #ppumask_bkg_col1_enable + ppumask_spr_col1_enable + ppumask_spr_show              
+    if ver_revA
         sta PPUMASK_RAM         ;We show only sprites because the word PAUSE is actually sprites  
+    else 
+        sta PPUMASK
+    endif 
         lda #$FF                 
         ldx #>sprites           ;Clear sprites RAM                
         ldy #>sprites                 
@@ -2227,7 +2232,11 @@ checkPauseReset:
         lda #$FF                ;If unpause, we return to the level    
         sta flag_inLevel_NMI     
         lda #ppumask_bkg_col1_enable + ppumask_spr_col1_enable + ppumask_bkg_show + ppumask_spr_show         
-        sta PPUMASK_RAM         ;We re-enable bkg and 1 column render 
+    if ver_revA
+        sta PPUMASK_RAM         ;We re-enable bkg and 1 column render
+    else 
+        sta PPUMASK
+    endif  
         lda #$00                ;And we unpause the audio 
         sta flag_pause_forAudio  
     @exit_checkPauseReset:   
@@ -2449,13 +2458,15 @@ toDemo_orOptions:
         lda #$FF                    ;Reset both players status 
         sta currentP_status      
         sta p1_status            
-        sta p2_status            
+        sta p2_status
+    if ver_revA            
         lda musicType            
         cmp #musicType_demo         ;Here if music type was set to 3, that means we came from demo          
         bcc @checkLvlCap         
     @musicTypeIsDemo:           
         lda #musicType_fever        ;Set music to Fever            
-        sta musicType            
+        sta musicType
+    endif             
     @checkLvlCap:            
         lda p1_level             
         cmp #selectableLvCap+1      ;Check if player 1's level is higher than lvl cap
@@ -3378,6 +3389,9 @@ toNextLevel:
         lda #CHR_titleTiles_frame0  ;Once again, not sure why the title here                 
         jsr changeCHRBank1
     endif        
+    if bugfix
+        jsr initAPU_variablesAndChannels        ;This fixes the bug where the UFO sfx keeps on playing in the next level if the cutscene is skipped while it is playing
+    endif 
         jsr audioUpdate_NMI_disableRendering
         jsr NMI_off           
         jsr prepLevelVisual_1P   

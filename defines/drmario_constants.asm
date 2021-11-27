@@ -58,7 +58,16 @@ false                   =   $FF
 
 checksumAddr_start      = $B900     ;Must end in $00
 checksumAddr_end        = $BE00
-checksumValue           =   $98
+
+if ver_revA
+    checksumValue       =   $98
+elseif ver_EU
+    checksumValue       =   $6B
+else
+    checksumValue       =   $C1
+endif
+    
+
 
 persistentRAM           = $0700     ;RAM starting from this address is not wiped at reset
 persistentRAM_end       = $07FF
@@ -69,14 +78,23 @@ flag_demo_record        =   $FF
 ;Timings
 txtScrollSpeed_cutscene =   $07     ;Zero-based, so every 8 frames, a letter is added
 fast_drop_speed         =   $01     ;Zero-based, so every 2 frames, down button is checked for fast drop
-hor_accel_speed         =   $10     ;The amount of frames left/right must be held for first lateral movement to occur
-hor_max_speed           =   $06     ;The amount of frames left/right must be held for any subsequent lateral movement to occur (cannot be higher than hor_accel_speed)
+if !ver_EU
+    hor_accel_speed     =   $10     ;The amount of frames left/right must be held for first lateral movement to occur
+    hor_max_speed       =   $06     ;The amount of frames left/right must be held for any subsequent lateral movement to occur (cannot be higher than hor_accel_speed)
+else 
+    hor_accel_speed     =   $0D
+    hor_max_speed       =   $05 
+endif 
 options_change_speed    =   $08
 
 endScreen_delay         =   $40     ;Amount of frames to wait before displaying end screen
 endLevel_delay          =   $80
 demoStart_delay         =   $08     ;This is times 256 (every complete frame counter cycle)
-levelIntro_delay        =   $80     ;After virus appears, before throwing pill 
+if !ver_EU
+    levelIntro_delay    =   $80     ;After virus appears, before throwing pill 
+else 
+    levelIntro_delay    =   $69
+endif 
 noVirusLeft_delay       =   $40     ;After at least one player has no virus left, before stage clear
 statusUpdate_delay      =   $10     ;Delay that is long enough to insure complete status update of field (16 frames, 1 for each row) 
 lightning_delay         =   $C0     ;Delay before starting lightning in final cutscene
@@ -657,13 +675,26 @@ note_data_repeat_end    =   $FF     ;Repeat marker
 note_data_repeat_start  =   $C0     ;Anything between $C0 and $FE is a repeat, with the first 6 bits serving as qty of repeats (minus 1) (ex: $C0 = $FF times, $C1 = $00 times, $C2 = $01 times, ... $FE = $3D times)
 note_data_length_index  =   $B0     ;Index for note length (uses tempo table that was set in metadata of song, or manually set with $9E) (values are between $B0 and $BF)
 
-tempo_225bpm            = noteLenght_225bpm - noteLengthTable   ;$00
-tempo_180bpm            = noteLenght_180bpm - noteLengthTable   ;$0C
-tempo_150bpm            = noteLenght_150bpm - noteLengthTable   ;$18
-tempo_128bpm            = noteLenght_128bpm - noteLengthTable   ;$28
-tempo_112bpm            = noteLenght_112bpm - noteLengthTable   ;$35
-tempo_100bpm            = noteLenght_100bpm - noteLengthTable   ;$43
-tempo_90bpm             = noteLenght_90bpm - noteLengthTable    ;$4F
+if !ver_EU
+    tempo_225bpm            = noteLength_225bpm - noteLengthTable   ;$00
+    tempo_180bpm            = noteLength_180bpm - noteLengthTable   ;$0C
+    tempo_150bpm            = noteLength_150bpm - noteLengthTable   ;$18
+    tempo_128bpm            = noteLength_128bpm - noteLengthTable   ;$28
+    tempo_112bpm            = noteLength_112bpm - noteLengthTable   ;$35
+    tempo_100bpm            = noteLength_100bpm - noteLengthTable   ;$43
+    tempo_90bpm             = noteLength_90bpm - noteLengthTable    ;$4F
+else
+    tempo_250bpm            = noteLength_250bpm - noteLengthTable   ;$00
+    tempo_187bpm            = noteLength_187bpm - noteLengthTable   ;$0C
+    tempo_166bpm            = noteLength_166bpm - noteLengthTable   ;$18             
+    tempo_150bpm            = noteLength_150bpm - noteLengthTable   ;$28              
+    tempo_136bpm            = noteLength_136bpm - noteLengthTable   ;$38              
+    tempo_125bpm            = noteLength_125bpm - noteLengthTable   ;$48
+    tempo_115bpm            = noteLength_115bpm - noteLengthTable   ;$58              
+    tempo_107bpm            = noteLength_107bpm - noteLengthTable   ;$68             
+    tempo_93bpm             = noteLength_93bpm - noteLengthTable    ;$76              
+    tempo_83bpm             = noteLength_83bpm - noteLengthTable    ;$84
+endif        
 
 transpose_lower         =   $80     ;If transpose is higher than $80, we subtract to the pitch index (we modulate lower), if not we add to pitch ( modulate higer)
 transpose_higher        =   $00 

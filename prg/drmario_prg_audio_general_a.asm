@@ -97,109 +97,17 @@ jumpTable_sfx_dmc_UNUSED:
         .word playSFX_UNK_DA48_DMC
     endif 
 
-;;
-;; copy_sfxData_to_APU [$D26E]
-;;
-;; Fills up a given channel 4 APU registers with data from ROM
-;; 
-;; Inputs:
-;;  Y: Low byte of sfx data
-;;
-;; Local variables:
-APUADDR         = tmpE0_audio
-APUADDR_lo      = tmpE0_audio
-APUADDR_hi      = tmpE1_audio
-sfxData         = tmpE2_audio
-sfxData_lo      = tmpE2_audio
-sfxData_hi      = tmpE3_audio
-copy_sfxData_to_APU_SQ0:             
-        lda #<APU_SQ0                 
-        beq _sfxData_to_APUchannel
-copy_sfxData_to_APU_TRG:             
-        lda #<APU_TRG                 
-        bne _sfxData_to_APUchannel
-copy_sfxData_to_APU_NOISE:           
-        lda #<APU_NOISE                 
-        bne _sfxData_to_APUchannel
-copy_sfxData_to_APU_SQ1:             
-        lda #<APU_SQ1
-    _sfxData_to_APUchannel:   
-        sta APUADDR_lo          
-        lda #>APU                       ;High byte of APU register, starts at $4000
-        sta APUADDR_hi                        
-        sty sfxData_lo                  ;Low byte of sfx data (was held in y)
-        lda #>sfx_data                  ;High byte of sfx data: starts at $D300 in vanilla
-        sta sfxData_hi          
-        ldy #$00                 
-    @fillChannelRegisters_loop:
-        lda (sfxData),Y      
-        sta (APUADDR),Y      
-        iny                      
-    if !optimize
-        tya                             ;Why not compare directly to Y here?       
-        cmp #APU_channel_register_size  ;4 times                 
-    else 
-        cpy #APU_channel_register_size
-    endif 
-        bne @fillChannelRegisters_loop
-    _exit_sfxUses:           
-        rts                      
+if !ver_EU
+    include prg/routines/drmario_prg_audio_copy_sfx_data.asm                   
+    include prg/routines/drmario_prg_audio_rnd_noise.asm                   
+    include prg/routines/drmario_prg_audio_sfx_counter.asm
+    include prg/routines/drmario_prg_audio_init_status.asm
+else 
+    include prg/routines/drmario_prg_audio_sfx_counter.asm
+    include prg/routines/drmario_prg_audio_init_status.asm
+    include prg/routines/drmario_prg_audio_copy_sfx_data.asm                   
+    include prg/routines/drmario_prg_audio_rnd_noise.asm 
+endif 
+                   
 
-;;
-;; randomizeNoisePeriod [$D295]
-;;
-;; Generates two random numbers for use as noise period
-;; An almost direct copy paste of randomNumberGenerator
-;; 
-randomizeNoisePeriod:
-    if !optimize    
-        lda sfx_rndNoisePeriod   
-        and #$02                 
-        sta sfx_rndNoisePeriod_tmp2
-        lda sfx_rndNoisePeriod_tmp1
-        and #$02                 
-        eor sfx_rndNoisePeriod_tmp2
-        clc                      
-        beq @randomizeNoisePeriod_rotateRight
-        sec                      
-    @randomizeNoisePeriod_rotateRight:
-        ror sfx_rndNoisePeriod   
-        ror sfx_rndNoisePeriod_tmp1
-        rts 
-    else 
-        ldx #sfx_rndNoisePeriod                 
-        ldy #rngSize                 
-        jmp randomNumberGenerator
-    endif                      
-
-;;
-;; sfx_increaseSectionCounter [$D2AC]
-;;
-;; Increases the current channel's sfx counter, and if we reach the length pre-determined for that section, reset the counter to 0
-;; 
-;; Returns:
-;;  Zero flag: clear if section finished, set if not
-;;
-sfx_increaseSectionCounter:
-        ldx sfx_channel           
-        inc sfx_sectionCounter_noise,X
-        lda sfx_sectionCounter_noise,X
-        cmp sfx_sectionLength_noise,X
-        bne @exit_sfx_increaseSectionCounter
-        lda #$00                 
-        sta sfx_sectionCounter_noise,X
-    @exit_sfx_increaseSectionCounter:
-        rts                      
-
-;;
-;; initAPU_status [$D2B7]
-;;
-;; Is only called during game init, enables all channels (except DMC), sets the random noise seed and then inits APU variables and channels
-;;        
-initAPU_status:          
-        lda #APUSTATUS_sq0_on + APUSTATUS_sq1_on + APUSTATUS_trg_on + APUSTATUS_noise_on                 
-        sta APUSTATUS            
-        lda #rngSeed_noise                 
-        sta sfx_rndNoisePeriod   
-        jsr initAPU_variablesAndChannels
-        rts                      
+               

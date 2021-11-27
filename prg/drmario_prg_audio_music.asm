@@ -47,8 +47,13 @@ music_toPlay_andUpdate:
 ;; The duration of a beat for each music, used for timing of animations to the beat (music nb is zero-based in this case)
 ;;
 musicBeatDurationTable:
-.db $00,$00,$0D,$0A,$0B,$04,$0B,$00
-.db $00,$00,$00,$00,$00
+if !ver_EU
+    .db $00,$00,$0D,$0A,$0B,$04,$0B,$00
+    .db $00,$00,$00,$00,$00
+else 
+    .db $00,$00,$0A,$0A,$08,$04,$0B,$00     ;mus_chill & mus_fever are the only 2 different
+    .db $00,$00,$00,$00,$00 
+endif 
 
 ;;
 ;; music_noiseData_percussion [$DB3A]
@@ -858,13 +863,23 @@ jumpTable_vol_envelopes:
 ;;
 ;; Actual data for the volume envelopes (a byte is two values of 4 bits). Ends with either a silence or sustain.
 ;; 
-vol_env_01:
-.hex 00B9999888887777777711
-.db vol_env_silence
+if !ver_EU
+    vol_env_01:
+    .hex 00B9999888887777777711
+    .db vol_env_silence
 
-vol_env_02:
-.hex 0000000BBA98888889
-.db vol_env_silence
+    vol_env_02:
+    .hex 0000000BBA98888889
+    .db vol_env_silence
+else
+    vol_env_01:         
+    .hex 0B999888887777777711
+    .db vol_env_silence
+
+    vol_env_02:         
+    .hex 000BBA98888889
+    .db vol_env_silence
+endif
 
 vol_env_04:
 .hex 00988888888888888888888888
@@ -1039,41 +1054,85 @@ pitchTable:
 ;;
 ;; 12 to 15: extra custom durations
 noteLengthTable:
-noteLenght_225bpm:          ;$00                 
-.db $04,$08,$10,$20,$40     ;4,8,16,32,64
-.db $18,$30,$0C             ;24,48,12
-.db $0A,$05,$02,$01         ;10,5,2,1
-
-noteLenght_180bpm:          ;$0C
-.db $05,$0A,$14,$28,$50     ;5,10,20,40,80
-.db $1E,$3C,$0F             ;30,60,15
-.db $0D,$06,$02,$01         ;13,6,2,1
-
-noteLenght_150bpm:          ;$18
-.db $06,$0C,$18,$30,$60     ;6,12,24,48,96
-.db $24,$48,$12             ;36,72,18
-.db $10,$08,$03,$01         ;16,8,3,1
-.db $04,$02,$00,$90
-
-noteLenght_128bpm:          ;$28    ...is actually 128,57 bpm
-.db $07,$0E,$1C,$38,$70     ;7,14,28,56,112
-.db $2A,$54,$15             ;42,84,21
-.db $12,$09,$03,$01         ;18,9,3,1
-.db $02
-
-noteLenght_112bpm           ;$35    ...is actually 112,5 bpm
-.db $08,$10,$20,$40,$80     ;8,16,32,64,128
-.db $30,$60,$18             ;48,96,24
-.db $15,$0A,$04,$01         ;21,10,4,1
-.db $02,$C0
-
-noteLenght_100bpm           ;UNUSED ($43)
-.db $09,$12,$24,$48,$90     ;9,18,36,72,144
-.db $36,$6C,$1B             ;54,108,27
-.db $18,$0C,$04,$01         ;24,12,4,1
-
-noteLenght_90bpm            ;$4F
-.db $0A,$14,$28,$50,$A0     ;10,20,40,80,160
-.db $3C,$78,$1E             ;60,120,30
-.db $1A,$0D,$05,$01         ;26,13,5,1
-.db $02,$17                      
+if !ver_EU
+    noteLength_225bpm:          ;$00                 
+    .db $04,$08,$10,$20,$40     ;4,8,16,32,64
+    .db $18,$30,$0C             ;24,48,12
+    .db $0A,$05,$02,$01         ;10,5,2,1
+    noteLength_180bpm:          ;$0C
+    .db $05,$0A,$14,$28,$50     ;5,10,20,40,80
+    .db $1E,$3C,$0F             ;30,60,15
+    .db $0D,$06,$02,$01         ;13,6,2,1
+    noteLength_150bpm:          ;$18
+    .db $06,$0C,$18,$30,$60     ;6,12,24,48,96
+    .db $24,$48,$12             ;36,72,18
+    .db $10,$08,$03,$01         ;16,8,3,1
+    .db $04,$02,$00,$90
+    noteLength_128bpm:          ;$28    ...is actually 128,57 bpm
+    .db $07,$0E,$1C,$38,$70     ;7,14,28,56,112
+    .db $2A,$54,$15             ;42,84,21
+    .db $12,$09,$03,$01         ;18,9,3,1
+    .db $02
+    noteLength_112bpm           ;$35    ...is actually 112,5 bpm
+    .db $08,$10,$20,$40,$80     ;8,16,32,64,128
+    .db $30,$60,$18             ;48,96,24
+    .db $15,$0A,$04,$01         ;21,10,4,1
+    .db $02,$C0
+    noteLength_100bpm           ;UNUSED ($43)
+    .db $09,$12,$24,$48,$90     ;9,18,36,72,144
+    .db $36,$6C,$1B             ;54,108,27
+    .db $18,$0C,$04,$01         ;24,12,4,1
+    noteLength_90bpm            ;$4F
+    .db $0A,$14,$28,$50,$A0     ;10,20,40,80,160
+    .db $3C,$78,$1E             ;60,120,30
+    .db $1A,$0D,$05,$01         ;26,13,5,1
+    .db $02,$17                      
+else 
+    noteLength_250bpm:
+    .db $03,$06,$0C,$18,$30         
+    .db $12,$24,$09
+    .db $08,$04,$01,$01
+    noteLength_187bpm:
+    .db $04,$08,$10,$20,$40         ;...is actually 187,5 bpm
+    .db $18,$30,$0C
+    .db $0A,$05,$02,$01
+    noteLength_166bpm:              ;...is actually 166,67 bpm
+    .db $04,$09,$12,$24,$48
+    .db $1B,$36,$0E
+    .db $0C,$06,$02,$01
+    .db $05,$03,$07,$90
+    noteLength_150bpm:              
+    .db $05,$0A,$14,$28,$50
+    .db $1E,$3C,$0F
+    .db $0D,$06,$02,$01
+    .db $03,$02,$07,$90
+    noteLength_136bpm:              ;...is actually 136,36 bpm
+    .db $05,$0B,$16,$2C,$58
+    .db $21,$42,$11
+    .db $0E,$07,$02,$01
+    .db $03,$06,$08,$0F
+    noteLength_125bpm:
+    .db $06,$0C,$18,$30,$60
+    .db $24,$48,$12
+    .db $10,$08,$03,$01
+    .db $04,$02,$00,$90
+    noteLength_115bpm:              ;...is actually 115,38 bpm
+    .db $06,$0D,$1A,$34,$68
+    .db $27,$4E,$14
+    .db $11,$08,$03,$02
+    .db $02,$04,$09,$00
+    noteLength_107bpm:              ;...is actually 107,14 bpm
+    .db $07,$0E,$1C,$38,$70
+    .db $2A,$54,$15
+    .db $12,$09,$03,$02
+    .db $02,$01
+    noteLength_93bpm:               ;...is actually 93,75 bpm
+    .db $08,$10,$20,$40,$80
+    .db $30,$60,$18
+    .db $15,$0A,$04,$01
+    .db $02,$C0
+    noteLength_83bpm:               ;...is actually 83,33 bpm
+    .db $09,$12,$24,$48,$90
+    .db $36,$6C,$1B
+    .db $18,$0C,$04,$01
+endif 

@@ -1,21 +1,5 @@
 ;Build config
-completeCleanup     = 0         ;Set to 1 to set all build config options
-
-bypassChecksum      = 0         ;Set to 1 to bypass the anti-piracy checksum
-removeUnused        = 0         ;Set to 1 to remove most unused data/code (relatively safe)
-removeMoreUnused    = 0         ;Set to 1 to remove the assumed remaining unused data/code (could be risky)
-optimize            = 0         ;Set to 1 to optimize code (frees-up space, but might impact cycle accuracy)
-bugfix              = 0         ;Set to 1 to fix some bugs (minor bugs not affecting gameplay)
-
-
-if completeCleanup
-    bypassChecksum      = 1         
-    removeUnused        = 1         
-    removeMoreUnused    = 1         
-    optimize            = 1         
-    bugfix              = 1         
-endif
-
+include build_config.asm
 
 ;Defines and macros
 include defines/drmario_ram_zp.asm
@@ -47,28 +31,28 @@ include prg/drmario_prg_general.asm
 
 ;Data chunk 2
 include data/drmario_data_nametables.asm
-if !removeUnused
-    include unused/drmario_unused_data_ced5.asm
-endif
+include unused/drmario_unused_data_ced5.asm
 include data/drmario_data_demo_field_pills.asm
 align 256                                       ;Must be aligned on a 256-byte boundary (vanilla rom = $D000)
 include data/drmario_data_demo_inputs.asm
 
-;Audio engine
+;Audio engine - general & sfx
 align 256                                       ;Must be aligned on a 256-byte boundary (vanilla rom = $D200)
 include prg/drmario_prg_audio_general_a.asm
-if !removeUnused
-    include unused/drmario_unused_data_d2cc.asm
-endif
+include unused/drmario_unused_data_d2cc.asm
 align 256                                       ;Must be aligned on a 256-byte boundary (vanilla rom = $D300)
 include data/drmario_data_sfx.asm               
 include prg/drmario_prg_audio_general_b.asm
 include prg/drmario_prg_audio_sfx.asm
+
+;Audio engine - music
 include prg/drmario_prg_audio_music.asm
 include data/drmario_data_music.asm
-if !removeUnused
-    include unused/drmario_unused_data_fafd.asm
-endif
+if ver_EU
+    include unused/drmario_unused_data_eu_fc29.asm
+    include prg/drmario_prg_reset.asm                  
+endif 
+include unused/drmario_unused_data_fafd.asm
 if $<$C000
     org $C000                                   ;Samples cannot be located before $C000
 endif
@@ -76,14 +60,14 @@ align 64                                        ;Must be aligned on a 64-byte bo
 include samples/drmario_samples_dmc.asm
 
 ;End of rom
-include prg/drmario_prg_reset.asm
-if !removeUnused
-    include unused/drmario_unused_data_ff32.asm
-endif
+if !ver_EU
+    include prg/drmario_prg_reset.asm
+else 
+    include prg/routines/drmario_prg_audio_update.asm                  
+endif 
+include unused/drmario_unused_data_ff32.asm
 include prg/drmario_prg_audio_linker.asm
-if !removeUnused
-    include unused/drmario_unused_data_ffd9.asm
-endif   
+include unused/drmario_unused_data_ffd9.asm
 
 ;Nintendo header
 org $FFE0                                       ;Is on a specific address (doesn't impact the game though)

@@ -9,8 +9,10 @@ reset:
         sei                     ;Set interrupt
         ldx #$00                 
         stx PPUCTRL             ;Init PPU controller and mask (+ RAM)         
-        stx PPUMASK              
-        stx PPUMASK_RAM          
+        stx PPUMASK
+    if ver_revA              
+        stx PPUMASK_RAM
+    endif           
     @waitForPPUStatus_step1: 
         lda PPUSTATUS           ;Wait for 2 v-blank to start   
         bpl @waitForPPUStatus_step1
@@ -18,7 +20,11 @@ reset:
         lda PPUSTATUS            
         bpl @waitForPPUStatus_step2
     @ppuStatus_finished:     
-        dex                      
+    if !ver_EU
+        dex 
+    else 
+        ldx #$FF
+    endif 
         txs                     ;Initiates the stack pointer to $FF
         inc reset               ;Value at this address must be $80 or higher to reset the MMC properly (vanilla rom = $FF00)
         lda #mmc_chr_4kb + mmc_prg_switch + mmc_mirroring_one_lower               

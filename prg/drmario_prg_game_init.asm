@@ -20,9 +20,11 @@ nmi:
         txa                      
         pha                      
         tya                      
-        pha                      
+        pha 
+    if ver_revA
         lda PPUMASK_RAM                 ;Write to PPUMASK register according to value set in RAM (can change, for instance, when pausing)                             
         sta PPUMASK         
+    endif 
         jsr render_sprites              ;Render all things that can change/move while staying in the same screen       
         jsr render_palChange_or_bkgOverlays         
         jsr render_fieldRow_bothPlayers
@@ -105,10 +107,12 @@ init:
     if !removeMoreUnused
         ldx #$00                    ;Not sure what this is used for
     endif            
+    if ver_revA | ver_EU
         lda #$FF                    ;Wipe all memory from $700 to $07FF, using value $FF                 
         ldx #>persistentRAM                 
         ldy #>persistentRAM_end                 
         jsr copy_valueA_fromX00_toY00_plusFF    
+    endif 
         lda #$00                    ;Sets highscore to 1000 (display actually adds a 0 at the end to give the impression that it is 10x higher)
         sta highScore+0          
         sta highScore+1          
@@ -162,7 +166,9 @@ init:
         sta PPUCTRL                           
         lda #ppumask_bkg_col1_enable + ppumask_spr_col1_enable              
         sta PPUMASK                 ;Show background + sprites in leftmost 8 pixels of screen, disable rendering              
-        sta PPUMASK_RAM          
+    if ver_revA
+        sta PPUMASK_RAM
+    endif           
     if !optimize
         jsr toInitAPU_status        ;Init APU status and variables for each channels
         jsr toInitAPU_var_chan

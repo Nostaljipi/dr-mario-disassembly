@@ -95,7 +95,7 @@ endif
 playSFX_UFO_leave_NOISE: 
         lda #$B3                                ;Gives the signal to the UFO siren noise to start lowering its volume (this value will be stored in SQ0_DUTY & SQ1_DUTY)        
         sta sfx_sq0_data       
-        lda #$07                                ;Step lenght       
+        lda #$07                                ;Step length       
         ldy #sfx_UFO_leaves_NOISE-sfx_data                 
         jsr playSFX_lengthA_dataD3YY
         lda #$3E                                ;The starting volume                
@@ -327,16 +327,20 @@ manageEnvelope_explosionSfx:
 playSFX_p2_attack:       
         ldy #sfx_p2_attack_SQ0-sfx_data         ;First start by copying the SQ0 data to APU                 
         jsr copy_sfxData_to_APU_SQ0          
-        lda #$05                 
+    if !ver_EU
+        lda #$05
+    else 
+        lda #$04
+    endif                  
         ldy #sfx_p2_attack_SQ1-sfx_data                 
-        jmp sfx_bothAttacks_andUFOsiren_SQ1     ;The data for SQ 1 + lenght (shared by both SQ0 and SQ1)
+        jmp sfx_bothAttacks_andUFOsiren_SQ1     ;The data for SQ 1 + length (shared by both SQ0 and SQ1)
     _toFinishedPlayingMalusStinger:
         jmp _finishedPlayingAttackStinger       ;Needed because the BEQ branch that leads here would get out of range if trying to branch directly to the address
 
 sfxPlaying_p2_attack:    
         jsr sfx_increaseSectionCounter          
         bne _exit_sfxPlaying_p1_attack
-        ldy sfx_sq0_step                        ;Every time we finish a section lenght, store sfx_sq0_step in y before increasing it
+        ldy sfx_sq0_step                        ;Every time we finish a section length, store sfx_sq0_step in y before increasing it
         inc sfx_sq0_step         
         lda sfx_p2_sendMalus_SQ0_pitch,Y        ;Get pitch to play for both sq channels and update APU accordingly
         beq _toFinishedPlayingMalusStinger      
@@ -364,7 +368,11 @@ sfx_p2_sendMalus_SQ1_pitch:
 playSFX_p1_attack:       
         ldy #sfx_p1_attack_SQ0-sfx_data                 
         jsr copy_sfxData_to_APU_SQ0          
-        lda #$06                 
+    if !ver_EU
+        lda #$06
+    else 
+        lda #$05
+    endif                  
         ldy #sfx_p1_attack_SQ1-sfx_data                 
         jmp sfx_bothAttacks_andUFOsiren_SQ1
     _exit_sfxPlaying_p1_attack:
@@ -488,7 +496,7 @@ sfxPlaying_UFO_siren_squares:
         sta sfx_sq0_step         
         rts                              
     @UFO_siren_underStep9:   
-        ora #$B0                                ;Duty at 50%, constant volume, no lenght   
+        ora #$B0                                ;Duty at 50%, constant volume, no length   
         jmp @checkIfWeFade       
 
 sfx_UFO_modulatePitch:   

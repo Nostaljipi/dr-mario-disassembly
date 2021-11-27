@@ -1,66 +1,147 @@
-UNUSED_DATA_7AFD:
-.db $00,$00,$00,$FF,$FF,$FF,$FD,$FF
-.db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
-.db $FF,$CF,$F4,$FF,$FF,$FF,$FF,$FF
-.db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$CF
-.db $7A,$FF,$FF,$00,$00,$00,$00,$00
-.db $00,$00,$00,$00,$00,$00,$00,$00
-.db $00,$00,$00,$00,$00,$00,$00,$00
-.db $00,$00,$00,$00,$00,$00,$00,$00
-.db $00,$00,$00,$FF,$FF,$FF,$FF,$FF
-.db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
-.db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
-.db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
-.db $FF,$FF,$FF,$00,$00,$00,$00,$00
-.db $00,$00,$00,$00,$00,$00,$00,$00
-.db $00,$00,$00,$00,$00,$00,$00,$00
-.db $00,$00,$00,$00,$00,$00,$00,$00
-.db $00,$00,$00,$FF,$FF,$FF,$FF,$FF
-.db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
-.db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
-.db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
-.db $FF,$FF,$FF,$00,$00,$00,$00,$00
-.db $00,$00,$00,$00,$00,$00,$00,$00
-.db $00,$00,$00,$00,$00,$00,$00,$00
-.db $00,$00,$00,$00,$00,$00,$00,$00
-.db $00,$00,$00,$FF,$FF,$FF,$FF,$FF
-.db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
-.db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
-.db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
-.db $FF,$FF,$FF,$00,$00,$00,$00,$00
-.db $00,$00,$00,$00,$00,$00,$00,$00
-.db $00,$00,$00,$00,$00,$00,$00,$00
-.db $00,$00,$00,$00,$00,$00,$00,$00
-.db $00,$00,$00,$FF,$FF,$FF,$FF,$FF
-.db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
-.db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
-.db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
-.db $FF,$FF,$FF,$00,$00,$00,$00,$00
-.db $00,$00,$00,$00,$00,$00,$00,$00
-.db $00,$00,$00,$00,$00,$00,$00,$00
-.db $00,$00,$00,$00,$00,$00,$00,$00
-.db $00,$00,$00,$FF,$FF,$FF,$FF,$FF
-.db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
-.db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
-.db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
-.db $FF,$FF,$FF,$00,$00,$00,$00,$00
-.db $00,$00,$00,$00,$00,$00,$00,$00
-.db $00,$00,$00,$00,$00,$00,$00,$00
-.db $00,$00,$00,$00,$00,$00,$00,$00
-.db $00,$00,$00,$FF,$FF,$FF,$FF,$FF
-.db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
-.db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
-.db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
-.db $FF,$FF,$FF,$00,$00,$00,$00,$00
-.db $00,$00,$00,$00,$00,$00,$00,$00
-.db $00,$00,$00,$00,$00,$00,$00,$00
-.db $00,$00,$00,$00,$00,$00,$00,$00
-.db $00,$00,$00,$FF,$FF,$FF,$FF,$FF
-.db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
-.db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
-.db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
-.db $FF,$FF,$FF,$00,$00,$00,$00,$00
-.db $00,$00,$00,$00,$00,$00,$00,$00
-.db $00,$00,$00,$00,$00,$00,$00,$00
-.db $00,$00,$00,$00,$00,$00,$00,$00
-.db $00,$00,$00
+if !removeUnused
+    UNUSED_DATA_7AFD:
+    if ver_revA
+        .db $00,$00,$00
+        .db $FF,$FF,$FF,$FD,$FF,$FF,$FF,$FF
+        .db $FF,$FF,$FF,$FF,$FF,$FF,$CF,$F4
+        .db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+        .db $FF,$FF,$FF,$FF,$CF,$7A,$FF,$FF         
+        .db $00,$00,$00,$00,$00,$00,$00,$00
+        .db $00,$00,$00,$00,$00,$00,$00,$00
+        .db $00,$00,$00,$00,$00,$00,$00,$00
+        .db $00,$00,$00,$00,$00,$00,$00,$00
+        .db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+        .db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+        .db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+        .db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+        .db $00,$00,$00,$00,$00,$00,$00,$00
+        .db $00,$00,$00,$00,$00,$00,$00,$00
+        .db $00,$00,$00,$00,$00,$00,$00,$00
+        .db $00,$00,$00,$00,$00,$00,$00,$00
+        .db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+        .db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+        .db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+        .db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+        .db $00,$00,$00,$00,$00,$00,$00,$00
+        .db $00,$00,$00,$00,$00,$00,$00,$00
+        .db $00,$00,$00,$00,$00,$00,$00,$00
+        .db $00,$00,$00,$00,$00,$00,$00,$00
+        .db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+        .db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+        .db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+        .db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+        .db $00,$00,$00,$00,$00,$00,$00,$00
+        .db $00,$00,$00,$00,$00,$00,$00,$00
+        .db $00,$00,$00,$00,$00,$00,$00,$00
+        .db $00,$00,$00,$00,$00,$00,$00,$00
+        .db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+        .db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+        .db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+        .db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+        .db $00,$00,$00,$00,$00,$00,$00,$00
+        .db $00,$00,$00,$00,$00,$00,$00,$00
+        .db $00,$00,$00,$00,$00,$00,$00,$00
+        .db $00,$00,$00,$00,$00,$00,$00,$00
+        .db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+        .db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+        .db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+        .db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+        .db $00,$00,$00,$00,$00,$00,$00,$00
+        .db $00,$00,$00,$00,$00,$00,$00,$00
+        .db $00,$00,$00,$00,$00,$00,$00,$00
+        .db $00,$00,$00,$00,$00,$00,$00,$00
+        .db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+        .db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+        .db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+        .db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+        .db $00,$00,$00,$00,$00,$00,$00,$00
+        .db $00,$00,$00,$00,$00,$00,$00,$00
+        .db $00,$00,$00,$00,$00,$00,$00,$00
+        .db $00,$00,$00,$00,$00,$00,$00,$00
+        .db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+        .db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+        .db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+        .db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+        .db $00,$00,$00,$00,$00,$00,$00,$00
+        .db $00,$00,$00,$00,$00,$00,$00,$00
+        .db $00,$00,$00,$00,$00,$00,$00,$00
+        .db $00,$00,$00,$00,$00,$00,$00,$00
+    elseif ver_EU
+        .db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+        .db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+        .db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+        .db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+        .db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+        .db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+        .db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+        .db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+        .db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+        .db $FF,$FF,$FF,$FF,$FF,$FF,$FF
+    else 
+        .db $00,$00,$00
+        .db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+        .db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+        .db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+        .db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF                     
+        .db $00,$00,$00,$00,$00,$00,$00,$00
+        .db $00,$00,$00,$00,$00,$00,$00,$00
+        .db $00,$00,$00,$00,$00,$00,$00,$00
+        .db $00,$00,$00,$00,$00,$00,$00,$00
+        .db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+        .db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+        .db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+        .db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+        .db $00,$00,$00,$00,$00,$00,$00,$00
+        .db $00,$00,$00,$00,$00,$00,$00,$00
+        .db $00,$00,$00,$00,$00,$00,$00,$00
+        .db $00,$00,$00,$00,$00,$00,$00,$00
+        .db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+        .db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+        .db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+        .db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+        .db $00,$00,$00,$00,$00,$00,$00,$00
+        .db $00,$00,$00,$00,$00,$00,$00,$00
+        .db $00,$00,$00,$00,$00,$00,$00,$00
+        .db $00,$00,$00,$00,$00,$00,$00,$00
+        .db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+        .db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+        .db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+        .db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+        .db $00,$00,$00,$00,$00,$00,$00,$00
+        .db $00,$00,$00,$00,$00,$00,$00,$00
+        .db $00,$00,$00,$00,$00,$00,$00,$00
+        .db $00,$00,$00,$00,$00,$00,$81,$08
+        .db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+        .db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+        .db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+        .db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+        .db $00,$00,$00,$00,$00,$00,$00,$00
+        .db $00,$00,$00,$00,$00,$00,$00,$00
+        .db $00,$00,$00,$00,$00,$00,$00,$00
+        .db $00,$00,$00,$00,$00,$00,$00,$00
+        .db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+        .db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+        .db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+        .db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+        .db $00,$00,$00,$00,$00,$00,$00,$00
+        .db $00,$00,$00,$00,$00,$00,$00,$00
+        .db $00,$00,$00,$00,$00,$00,$00,$00
+        .db $00,$00,$00,$00,$00,$00,$00,$00
+        .db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+        .db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+        .db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+        .db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+        .db $00,$00,$00,$00,$00,$00,$00,$00
+        .db $00,$00,$00,$00,$00,$00,$00,$00
+        .db $00,$00,$00,$00,$00,$00,$00,$00
+        .db $00,$00,$00,$00,$00,$00,$00,$00
+        .db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+        .db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+        .db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+        .db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+        .db $00,$00,$00,$00,$00,$00,$00,$00
+        .db $00,$00,$00,$00,$00,$00,$00,$00
+        .db $00,$00,$00,$00,$00,$00,$00,$00
+        .db $00,$00,$00,$00,$00,$00,$00,$00
+    endif 
+endif 

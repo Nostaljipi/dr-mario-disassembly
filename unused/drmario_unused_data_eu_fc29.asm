@@ -1,20 +1,14 @@
 if !removeUnused
-    UNUSED_DATA_D2CC: 
-    if !ver_EU  
-        .db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
-        .db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
-        .db $FF,$FF,$FF,$FF,$00,$00,$00,$00
-        .db $00,$00,$00,$00,$00,$00,$00,$00
-        .db $00,$00,$00,$00,$00,$00,$00,$00
-        .db $00,$00,$00,$00,$00,$00,$00,$00
-        .db $00,$00,$00,$00
-    else 
+    UNUSED_DATA_EU_FC29:
         .db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
         .db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
         .db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
         .db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
         .db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
         .db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
-        .db $FF,$FF,$FF,$FF
-    endif 
+        .db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+        .db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+        .db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+        .db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+        .db $FF,$FF,$FF,$FF,$FF,$FF,$FF
 endif 
